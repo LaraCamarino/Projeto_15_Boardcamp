@@ -1,15 +1,18 @@
 import joi from "joi";
+import dayjs from "dayjs";
 import connection from "../dbStrategy/postgres.js";
 
 export default async function validateCustomerUpdate(req, res, next) {
     const id = req.params.id;
     const updateInfo = req.body;
+    const today = dayjs();
+    const maxDate = new Date(today - 1000 * 60 * 60 * 24 * 365 * 18);
 
     const updateInfoSchema = joi.object({
         name: joi.string().required(),
         phone: joi.string().min(10).max(11).required(),
         cpf: joi.string().length(11).required(),
-        birthday: joi.date().required()
+        birthday: joi.date().max(maxDate).required()
     });
 
     const validation = updateInfoSchema.validate(updateInfo, { abortEarly: false });

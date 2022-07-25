@@ -15,7 +15,7 @@ export default async function validateGame(req, res, next) {
         pricePerDay: joi.number().min(0).required()
     });
 
-    const validation = newGameSchema.validate(newGame);
+    const validation = newGameSchema.validate(newGame, { abortEarly: false });
     if (validation.error) {
         res.status(400).send(validation.error.details);
         return;

@@ -7,6 +7,7 @@ export async function getAllGames(req, res) {
         if (nameQuery) {
             const { rows: games } = await connection.query(`SELECT games.*, categories.name as "categoryName" FROM games JOIN categories ON games."categoryId" = categories.id WHERE LOWER(games.name) LIKE $1`, [nameQuery.toLowerCase() + "%"]);
             res.status(200).send(games);
+            return;
         }
         else {
             const { rows: games } = await connection.query(`SELECT games.*, categories.name as "categoryName" FROM games JOIN categories ON games."categoryId" = categories.id`);
@@ -18,7 +19,6 @@ export async function getAllGames(req, res) {
         res.status(500).send(error);
     }
 }
-
 
 export async function insertNewGame(req, res) {
     const newGame = req.body;

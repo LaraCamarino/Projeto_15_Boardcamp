@@ -15,7 +15,7 @@ export default async function validateCategory(req, res, next) {
     }
 
     const { rows: existingCategories } = await connection.query("SELECT (name) FROM categories");
-    if (existingCategories.some((category) => category.name === newCategory.name)) {
+    if (existingCategories.some((category) => category.name.toLowerCase() === newCategory.name.toLowerCase())) {
         res.status(409).send("This category already exists.");
         return;
     }

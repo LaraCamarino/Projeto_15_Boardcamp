@@ -27,7 +27,7 @@ export async function getCustomerById(req, res) {
             res.status(404).send("This customer does not exist.");
             return;
         }
-        res.status(200).send(customer);
+        res.status(200).send(customer[0]);
     }
     catch (error) {
         res.status(500).send(error);
